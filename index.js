@@ -45,7 +45,7 @@ function arrayToCSV(objArray) {
   var watches = [];
   for (link in links) {
     //Basic url + specific watch link
-    var linkPath = `${basicURL}/${links[link]}`;
+    var linkPath = `${basicURL}${links[link]}`;
     try {
       await page.goto(linkPath);
       console.log(`Openning: ${linkPath}`);
