@@ -3,10 +3,10 @@ const puppeteer = require('puppeteer');
 (async () => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-
-  var brand = 'Tissot';
-  const pageURL = `https://www.watchfinder.co.uk/${brand}/watches/all`;
-
+  const basicURL = 'https://www.watchfinder.co.uk';
+  var brand = 'Cartier';
+  const pageURL = `${basicURL}/${brand}/watches/all`;
+  //Getting links of particular brand of watch
   try {
     await page.goto(pageURL);
     console.log(`Openning: ${pageURL}`);
@@ -21,10 +21,38 @@ const puppeteer = require('puppeteer');
       return linksResult;
     });
   } catch (error) {
-    console.log(`Couldn't proceed: ${pageURL} cause of: ${error}`);
+    console.error(`Couldn't proceed with: ${pageURL} cause of: ${error}`);
+  }
+
+  //Going through N watches that we got previously
+  var watches = [];
+  for (link in links) {
+    //Basic url + specific watch link
+    var linkPath = `${basicURL}/${links[link]}`;
+    try {
+      await page.goto(linkPath);
+      console.log(`Openning: ${linkPath}`);
+      var watch = await page.evaluate(() => {
+        var watchInfo = {};
+        var brand = document.querySelector('h3 > span.prod_brand.ellipsis')
+          .innerText;
+        var model = document.querySelector('h3 > span.prod_series.ellipsis')
+          .innerText;
+        var referenceNumber = document.querySelector(
+          'h3 > span.prod_model.ellipsis'
+        ).innerText;
+        var caseSize = document.querySelector(
+          'div.prod_info-content > div > table > tbody > tr:nth-child(11) > td:nth-child(2)'
+        ).innerText;
+        watchInfo = { brand, model, referenceNumber, caseSize };
+        return watchInfo;
+      });
+      watches.push(watch);
+    } catch (error) {
+      console.error(`Couldn't proceed: ${pageURL} cause of: ${error}`);
+    }
   }
 
   await browser.close();
-  console.log(links);
   process.exit();
 })();
