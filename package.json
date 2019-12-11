@@ -1,0 +1,14 @@
+{
+  "name": "watches",
+  "version": "1.0.0",
+  "description": "Test task watches web-scraper",
+  "main": "index.js",
+  "author": "Moroz Andrey",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "puppeteer": "^2.0.0"
+  }
+}
