@@ -32,7 +32,7 @@ function arrayToCSV(objArray) {
         'div > div.col-push-5.col-7.col-md-12.prods_content > a'
       );
       var linksResult = [];
-      for (var i = 0; i < 3; i++) {
+      for (var i = 0; i < 10; i++) {
         linksResult[i] = watchesLinks[i].getAttribute('href');
       }
       return linksResult;
