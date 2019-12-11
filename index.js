@@ -2,16 +2,17 @@ const puppeteer = require('puppeteer');
 
 (async () => {
   const browser = await puppeteer.launch();
-
   const page = await browser.newPage();
-  const pageURL = 'https://www.watchfinder.co.uk/Tissot/watches';
+  
+  var brand = 'Omega'
+  const pageURL = `https://www.watchfinder.co.uk/${brand}/watches`;
 
   try {
     await page.goto(pageURL);
     console.log(`Openning: ${pageURL}`);
     var links = await page.evaluate(() => {
       var watchesLinks = document.querySelectorAll(
-        'div > div.col-push-5.col-7.col-md-12.prods_content > a'
+        `a.series_item`
       );
       var linksResult = [];
       for (var i = 0; i < 10; i++) {
