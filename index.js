@@ -1,4 +1,21 @@
 const puppeteer = require('puppeteer');
+const fs = require('fs');
+
+function arrayToCSV(objArray) {
+  const array = typeof objArray !== 'object' ? JSON.parse(objArray) : objArray;
+  let str =
+    `${Object.keys(array[0])
+      .map(value => `"${value}"`)
+      .join(',')}` + '\r\n';
+
+  return array.reduce((str, next) => {
+    str +=
+      `${Object.values(next)
+        .map(value => `"${value}"`)
+        .join(',')}` + '\r\n';
+    return str;
+  }, str);
+}
 
 (async () => {
   const browser = await puppeteer.launch();
@@ -15,7 +32,7 @@ const puppeteer = require('puppeteer');
         'div > div.col-push-5.col-7.col-md-12.prods_content > a'
       );
       var linksResult = [];
-      for (var i = 0; i < 10; i++) {
+      for (var i = 0; i < 3; i++) {
         linksResult[i] = watchesLinks[i].getAttribute('href');
       }
       return linksResult;
@@ -54,5 +71,7 @@ const puppeteer = require('puppeteer');
   }
 
   await browser.close();
+  var csvFileInfo = arrayToCSV(watches);
+  fs.writeFileSync('watches.csv', csvFileInfo);
   process.exit();
 })();
