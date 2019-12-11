@@ -22,7 +22,7 @@ function arrayToCSV(objArray) {
   const page = await browser.newPage();
   const basicURL = 'https://www.watchfinder.co.uk';
   var brand = 'Rolex';
-  const pageURL = `${basicURL}/${brand}/watches/all`;
+  const pageURL = `${basicURL}/search?q=${brand}`;
   //Getting links of particular brand of watch
   try {
     await page.goto(pageURL);
