@@ -21,7 +21,7 @@ function arrayToCSV(objArray) {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   const basicURL = 'https://www.watchfinder.co.uk';
-  var brand = 'Rolex';
+  var brand = 'Omega';
   const pageURL = `${basicURL}/search?q=${brand}`;
   //Getting links of particular brand of watch
   try {
@@ -72,6 +72,6 @@ function arrayToCSV(objArray) {
 
   await browser.close();
   var csvFileInfo = arrayToCSV(watches);
-  fs.writeFileSync('watches.csv', csvFileInfo);
+  fs.writeFileSync(`${watches[0].brand}.csv`, csvFileInfo);
   process.exit();
 })();
